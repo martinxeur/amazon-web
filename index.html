@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Connexion - Mon Site</title>
+
+  <!-- Import Firebase -->
+  <script type="module">
+    // Importation des modules Firebase
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/11.0.1/firebase-app.js";
+    import { 
+      getAuth, 
+      createUserWithEmailAndPassword, 
+      signInWithEmailAndPassword, 
+      signOut 
+    } from "https://www.gstatic.com/firebasejs/11.0.1/firebase-auth.js";
+
+    // 🔑 Configuration Firebase (à remplacer par la tienne)
+    const firebaseConfig = {
+      apiKey: "TA_CLE_API",
+      authDomain: "TON_PROJET.firebaseapp.com",
+      projectId: "TON_PROJET",
+    };
+
+    // Initialisation
+    const app = initializeApp(firebaseConfig);
+    const auth = getAuth(app);
+
+    // Connexion
+    async function login() {
+      const email = document.getElementById("email").value;
+      const password = document.getElementById("password").value;
+      try {
+        await signInWithEmailAndPassword(auth, email, password);
+        alert("Connexion réussie !");
+      } catch (e) {
+        alert("Erreur : " + e.message);
+      }
+    }
+
+    // Inscription
+    async function register() {
+      const email = document.getElementById("email").value;
+      const password = document.getElementById("password").value;
+      try {
+        await createUserWithEmailAndPassword(auth, email, password);
+        alert("Inscription réussie !");
+      } catch (e) {
+        alert("Erreur : " + e.message);
+      }
+    }
+
+    // Déconnexion
+    async function logout() {
+      await signOut(auth);
+      alert("Déconnecté !");
+    }
+  </script>
+
+  <style>
+    body { 
+      font-family: Arial, sans-serif; 
+      text-align: center;
+      margin-top: 50px;
+    }
+    input, button {
+      padding: 10px;
+      margin: 5px;
+      width: 250px;
+      border-radius: 8px;
+      border: 1px solid #ccc;
+    }
+    button {
+      background-color: #1a73e8;
+      color: white;
+      border: none;
+      cursor: pointer;
+    }
+    button:hover {
+      background-color: #0c5ed7;
+    }
+  </style>
+</head>
+
+<body>
+  <h2>Connexion / Inscription</h2>
+  <input id="email" type="email" placeholder="Email"><br>
+  <input id="password" type="password" placeholder="Mot de passe"><br>
+  <button onclick="login()">Se connecter</button>
+  <button onclick="register()">Créer un compte</button>
+  <br><br>
+  <button onclick="logout()">Se déconnecter</button>
+</body>
+</html>
